@@ -1,4 +1,4 @@
-const baseURL = "./server";
+const baseURL = "../server";
 
 // Authentication management
 // Check if session storage contains the value email 
