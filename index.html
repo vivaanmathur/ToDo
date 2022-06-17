@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css" >
+
+    <title>Gestapo</title>
+    <style>
+
+      body{
+        background: url('./extra/R.jpeg');
+       
+      }
+
+
+.ys {
+
+
+background: rgba( 255, 255, 255, 0.3 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+-webkit-backdrop-filter: blur( 0px );
+backdrop-filter: blur( 0px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.todo-main{
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  align-content:center; 
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */min-height: 100vh;
+}
+
+
+
+      </style>
+  </head>
+  <body>
+
+
+<div class="todo-main">
+  
+  
+  <div class="container col-md-3 ">
+
+    
+
+
+    <div class="card ys  "id="collapsedLogIn">
+      <div class="card-header">
+          <h3 class="mb-0">Sign In</h3>
+      </div>
+      <div class="card-body">
+          <form class="form collapse show" id="authForm">
+              <div class="form-group mt-2">
+                  <label for="email">Email:</label> <input class="form-control ys mt-1" type="text" name="email" id="email" autofocus="" required="">
+              </div>
+              <div class="form-group mt-3">
+                  <label for="password">Password: </label> <input class="form-control ys mt-1" type="password" name="password" id="password" required="">
+              </div>
+            
+              <div class="form-group mt-4">
+<button type="submit" class="btn  ys btn-outline-secondary  mt-1" id="loginbtn">LOGIN</button>  <button type="submit" class="btn  ys btn-outline-secondary  mt-1" id="signupbtn">SIGN UP</button>
+</div>
+
+           </form>
+           <div class="collapse " id="spinner">
+          <img src="./img/O.gif" style="height: 50%; width: 50%" class="float-center" alt="Loading...">
+           </div>
+      </div>
+  </div>
+
+    
+</div>
+</div>
+
+    <!-- Scripts -->
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js" ></script>
+    <script src="./js/toast.min.js"></script>
+
+<script>
+
+  // Check if session storage contains the value email 
+if(sessionStorage.getItem('email') != null){
+  window.location.href="./app/";
+  
+}
+
+ $("#authForm").submit(function(e){
+  e.preventDefault();
+  iqwerty.toast.toast('Please click the Login or Signup button to proceed.');
+  console.log("The incorrect button was pressed.")
+});
+
+function validate(email, password){
+
+console.log("Validating...")
+  if(email == ""){
+    iqwerty.toast.toast("Please enter your email.");
+    console.log("Email is empty.")
+    return false;
+  }
+ else if(password == ""){
+  iqwerty.toast.toast("Please enter your password.");
+    console.log("Password is empty.")
+    return false;
+  }
+  else{
+  return true;
+  console.log("Validation successful..");
+  }
+  console.log("Validated.")
+  }
+
+ 
+
+
+
+ function authenticate(email, password, func){
+
+  console.log("Authenticating...")
+$.ajax({
+  url: "./server/authenticate.php",
+  method: "POST",
+  data: {
+    email: email,
+    password: password,
+    func: func
+  }, async : true,
+  beforeSend: function(){
+    $('#authForm').removeClass('show');
+    $('#spinner').addClass('show');
+console.log("Loading spinner.");
+  }
+}).then(function(data){
+  $('#authForm').addClass('show');
+    $('#spinner').removeClass('show');
+  if(data == "Welcome! You were signed up successfully."){
+    iqwerty.toast.toast("Logged in successfully. Please wait while we redirect you.");
+console.log("New user created!");
+sessionStorage.setItem("email", email);
+window.location.href='./app/';
+  }
+  else if(data == "Welcome! You were logged in successfully."){
+$("#status").html("Successful.");
+sessionStorage.setItem("email", email);
+window.location.href='./app/';
+console.log("Yay! The existing user signed in successfully.")
+  }
+  else if(data=="Incorrect password."){
+    iqwerty.toast.toast("The password was incorrect. Please re-enter your password and try again.");
+    console.log("Incorrect password.")
+  }
+  else if(data=="A user with this email address already exists. Please click the Login button to sign in."){
+    iqwerty.toast.toast("User with this email ID already exists.");
+    console.log("User already exists.")
+  }
+  else if(data=="User does not exist."){
+    iqwerty.toast.toast("A user with this email ID does not exist.");
+    console.log("User not found.")
+  }
+  else{
+    iqwerty.toast.toast("An error occured. Please try again later.");
+    console.log("An error occured. Please try again later." + data)
+  }
+
+ 
+}).fail(function(data){ 
+  $('#authForm').addClass('show');
+    $('#spinner').removeClass('show');
+    iqwerty.toast.toast("Something went wrong. Please try again later.");
+  console.log("An internal error occured.");
+});
+
+
+}
+
+$("#signupbtn").click(function(e){
+  e.preventDefault();
+  var email = $("#email").val();
+  var password = $("#password").val();
+  console.log("Signing up...");
+  if(validate(email, password)){
+      authenticate(email, password, "signup");
+  } 
+});
+
+$("#loginbtn").click(function(e){
+  e.preventDefault();
+  var email = $("#email").val();
+  var password = $("#password").val();
+  console.log("Logging in...");
+  if(validate(email, password)){
+      authenticate(email, password, "login");
+  }
+});
+
+
+  </script>
+  </body>
+</html>

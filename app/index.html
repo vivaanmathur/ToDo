@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" >
+<link rel="stylesheet" href="../css/blurt.min.css">
+    <title>Gestapo</title>
+    <style>
+
+
+.ys {
+
+
+background: rgba( 255, 255, 255, 0.3 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 0px );
+-webkit-backdrop-filter: blur( 0px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+
+
+      </style>
+  </head>
+  <body>
+
+    
+    <!-- Scripts -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js" ></script>
+    <script src="../js/toast.min.js" ></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+           <script src="../js/blurt.min.js"></script>
+     
+           <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">To Do</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Tasks</a>
+                  </li>
+           
+                
+            
+                </ul>
+            
+       
+                <div class="d-flex dropdown ">
+                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                          <span class="d-none d-sm-inline mx-1" id="email">Profile</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                   
+                      <li><a class="dropdown-item" href="#" id="logoutbtn">Sign out</a></li>
+                  </ul>
+              </div>
+              </div>
+            </div>
+          </nav>
+   <div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+           
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li>
+                  <a title="New List" href="#newForm" class="text-white" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="newForm">
+                    <span class="ms-1 d-none d-sm-inline"  id="newlist" ><ion-icon name="add"></ion-icon></span>
+                  </a>
+</li>
+                  <li class="nav-item">
+            
+                        <form class="form   p-2 rounded bg-dark collapse" id="newForm">
+                          <div class="form-group ">
+                            <label for="email">New List</label> 
+                            <input title="List name" class="form-control  mt-1" type="text" name="newlistid" id="newlistid" autofocus="" required="">
+                   
+                       </div>
+                       <button type="submit" class="btn btn-primary   mt-2" id="createbtn" >CREATE</button>
+
+                      </form>
+                    </li>
+                    <div class="modal fade" id="editListModal" tabindex="-1" aria-labelledby="editListModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="editListModalLabel" style="color: black">Edit List Name</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="collapse  " id="spinnerfour">
+                            <img src="../img/O.gif" style="height: 50%; width: 50%" class="float-center">
+                             </div>
+              
+                          <form class="collapse show" id="editListModalForm">
+                          <div class="modal-body">
+              
+                            <div class="form-group mt-2">
+                    <input class="form-control ys mt-1" type="text" name="editListName" id="editListName" autofocus="" required="" placeholder="New List Name">
+                            </div>
+                            
+                          
+                   
+                        <input type="hidden" id="editListID">
+            
+                        
+                          </div>
+                          <div class="modal-footer">
+                    
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                            <button type="button" class="btn btn-primary" id="editListBtn">Edit List</button>
+                          </div>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="userlists">
+                    
+                    </div>
+                    
+                  <div class="collapse  " id="spinner">
+                    <img src="../img/O.gif" style="height: 50%; width: 50%" class="float-center" alt="Loading">
+                     </div>
+                </ul>
+       
+         
+            </div>
+        </div>
+        <div class="col py-3">
+          <div id="contentlists">
+        Please select a list on the left side to view tasks.
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="collapse  " id="spinnerthree">
+                <img src="../img/O.gif" style="height: 50%; width: 50%" class="float-center">
+                 </div>
+  
+              <form class="collapse show" id="editTaskForm">
+              <div class="modal-body">
+            
+
+
+                    
+             
+                <div class="form-group mt-2">
+        <input class="form-control ys mt-1" type="text" name="editTaskName" id="editTaskName" autofocus="" required="" placeholder="Task">
+                </div>
+                <div class="form-group mt-2">
+                  
+                    
+                    <textarea class="form-control ys" id="editTaskDescription" rows="3" placeholder="Description"></textarea>
+            
+                </div>
+                <div class="form-group mt-2">
+                  
+                  <input id="editDueDate" class="form-control ys" type="date"/>
+              </div>
+       
+            <input type="hidden" id="editID">
+
+            
+              </div>
+              <div class="modal-footer">
+        
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                <button type="button" class="btn btn-primary" id="editTaskBtn">Edit Task</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+     <hr>
+         
+              <form class="shadow  p-2 form collapse" id="newTaskForm">
+                  <div class="form-group mt-2">
+          <input class="form-control  mt-1" type="text" name="newTaskName" id="newTaskName" autofocus="" required="" placeholder="New task">
+                  </div>
+                  <div class="form-group mt-2">
+                    
+                      
+                      <textarea class="form-control " id="newTaskDescription" rows="3" placeholder="Description"></textarea>
+              
+                  </div>
+                  <div class="form-group mt-2">
+                    
+                    <input id="dueDate" class="form-control" type="date" title="Date"/>
+                </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn   btn-primary mt-3" id="newTaskBtn">CREATE TASK</button>
+                       </div>
+        
+               </form>
+          
+        <div class="collapse  " id="spinnertwo">
+          <img src="../img/O.gif" style="height: 50%; width: 50%" class="float-center" alt="Loading">
+           </div>
+
+      
+       <!--         -->  
+          
+        </div>
+    </div>
+</div>
+
+
+
+<script src="../js/app.js"></script>
+
+  </body>
+</html>
